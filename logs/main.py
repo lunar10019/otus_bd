@@ -26,6 +26,7 @@ def analyze_file(file_path: str):
 
 def main():
     if len(sys.argv) != 2:
+        print("Ошибка: неверное количество аргументов")
         sys.exit(1)
 
     try:
