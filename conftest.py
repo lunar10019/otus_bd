@@ -1,6 +1,8 @@
 import pytest
 import pymysql
 
+from library.db import create_customer, get_customer, delete_customer
+
 
 def pytest_addoption(parser):
     parser.addoption(
@@ -36,3 +38,23 @@ def connection(request):
     yield conn
 
     conn.close()
+
+
+@pytest.fixture
+def customer_data():
+    return {
+        "firstname": "John",
+        "lastname": "Doe",
+        "email": "john.doe@example.com",
+        "telephone": "+1234567890",
+        "password": "securepassword123",
+    }
+
+
+@pytest.fixture
+def test_customer(connection, customer_data):
+    customer_id = create_customer(connection, customer_data)
+    yield customer_id
+
+    if get_customer(connection, customer_id):
+        delete_customer(connection, customer_id)
