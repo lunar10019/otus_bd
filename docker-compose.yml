@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  tests:
+    build: .
+    network_mode: "host"
+    environment:
+      - DB_HOST=localhost
+      - DB_PORT=3306
+      - DB_NAME=bitnami_opencart
+      - DB_USER=root
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: bitnami_opencart
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
